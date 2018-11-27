@@ -9,25 +9,29 @@ import iks.springframework.spring5webapp.model.Book;
 import iks.springframework.spring5webapp.model.Publisher;
 import iks.springframework.spring5webapp.model.repositories.AuthorRepository;
 import iks.springframework.spring5webapp.model.repositories.BookRepository;
+import iks.springframework.spring5webapp.model.repositories.PublisherRepository;
 
 @Component
 public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
 	
 	private AuthorRepository authorRepository;
 	private BookRepository bookRepository;
+	private PublisherRepository publisherRepository;
 	
 	
 
-	public DevBootstrap(AuthorRepository authorRepository, BookRepository bookRepository) {
+	public DevBootstrap(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
 		this.authorRepository = authorRepository;
 		this.bookRepository = bookRepository;
+		this.publisherRepository = publisherRepository;
 	}
 
 	private void initData() {
 		
 		//Eric
 		Author eric = new Author("Eric", "Evans");
-		Publisher harper = new Publisher("Haper Collins", "Somewhere", "California", "California");
+		Publisher harper = new Publisher("Haper Collins", "Somewhere in California");
+		publisherRepository.save(harper);
 		Book ddd = new Book("Domain Driven Design", "1234", harper);
 		eric.getBooks().add(ddd);
 		ddd.getAuthors().add(eric);
@@ -37,7 +41,8 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
 		
 		//Rod
 		Author rod = new Author("Rod", "Johnson");
-		Publisher worx = new Publisher("Worx", "Somewhere", "Virginia", "Virginia");
+		Publisher worx = new Publisher("Worx", "Somewhere in Texas");
+		publisherRepository.save(worx);
 		Book noEJB = new Book("J2EE Development without EJB", "23444", worx);
 		rod.getBooks().add(noEJB);
 		
